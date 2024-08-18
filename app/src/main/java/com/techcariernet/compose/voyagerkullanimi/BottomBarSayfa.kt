@@ -1,0 +1,87 @@
+package com.techcariernet.compose.voyagerkullanimi
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import cafe.adriel.voyager.navigator.Navigator
+
+@Composable
+fun BottomBarSayfa() {
+    //önce default seçilen itemi yazıyoruz
+    val secilenItem = remember {
+        mutableStateOf(0)
+    }
+
+    Scaffold(
+        bottomBar = {
+            BottomAppBar(content = {
+                NavigationBarItem(
+                    selected = secilenItem.value == 0,
+                    onClick = {
+                        secilenItem.value = 0
+                    },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.anasayfa_resim),
+                            contentDescription = "Anasayfa"
+                        )
+                    },
+                    label = { Text(text = "Anasayfa") },
+
+                    )
+
+
+
+                NavigationBarItem(
+                    selected = secilenItem.value == 1,
+                    onClick = {
+                        secilenItem.value = 1
+                    },
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ayarlar_resim),
+                            contentDescription = "Ayarlar"
+                        )
+                    },
+                    label = { Text(text = "Ayarlar") },
+
+                    )
+
+
+            }
+            )
+        }
+
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            //BottomBar Navigation
+
+            if (secilenItem.value == 0) {
+                Navigator(screen = Anasayfa())
+            }
+            if (secilenItem.value == 1) {
+                Navigator(screen = Ayarlar())
+            }
+        }
+
+    }
+}
